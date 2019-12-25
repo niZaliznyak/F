@@ -1,0 +1,49 @@
+<script>
+
+let balance = 1000;
+let i = 0;
+
+console.log(balance);
+
+  function getRandom(min, max){
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  
+  while(balance > 0 && balance < 10000){
+
+    i++;
+
+    let rate = prompt(`Enter rate. Balance: ${balance}`);
+    while(rate > balance){
+      rate = prompt(`Enter rate. Balance: ${balance}`);
+    }
+    
+    balance = balance - rate;
+      
+    let dice1 = getRandom(1, 6);
+    let dice2 = getRandom(1, 6);
+    let diceSum = dice1 + dice2;
+    console.log(dice1, dice2);
+
+    let userDice = prompt("Enter number: 2 - 12");
+    
+    if(dice1 == dice2 && diceSum == userDice){
+      balance += rate * 3;
+      alert(`You right! Balance: ${balance}. Dice: ${dice1}, ${dice2}`);
+    }  
+    else if(diceSum == userDice){
+      balance += rate * 2;
+      alert(`You right! Balance: ${balance}. Dice: ${dice1}, ${dice2}`);
+    } 
+    else{
+      alert(`You wrong! Balance: ${balance}. Dice: ${dice1}, ${dice2}`);
+    }
+    
+  }
+
+  if(balance <= 0) alert('You loose!');
+  if(balance >= 10000) alert(`You win! Try count: ${i}`);
+
+</script>
