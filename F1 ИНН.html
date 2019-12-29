@@ -1,0 +1,64 @@
+<script>
+    function fullYears(b){
+    var n = new Date(), b = new Date(b),
+        age = n.getFullYear() - b.getFullYear();
+    return n.setFullYear(1995) < b.setFullYear(1995) ? age - 1 : age;
+    }
+    
+    function formatDate(date){
+
+    var dd = date.getDate();
+    if (dd < 10) dd = '0' + dd;
+
+    var mm = date.getMonth() + 1;
+    if (mm < 10) mm = '0' + mm;
+
+    var yy = date.getFullYear();
+    if (yy < 10) yy = '0' + yy;
+
+    return yy + '-' + mm + '-' + dd;
+    }
+
+    function innVerif(INN){
+
+	INN = INN.split("");
+	
+	let ctrl = INN[0]*(-1) + INN[1]*5 + INN[2]*7 + INN[3]*9 + INN[4]*4 + INN[5]*6 + INN[6]*10 + INN[7]*5 + INN[8]*7;
+	
+	let ctrlNum = ctrl % 11;
+	
+	ctrlNum = ctrlNum == 10 ? 0 : ctrlNum;
+
+    const date1 = (new Date(1900, 0, 1)).getTime();
+    
+    let bDayDays = +INN.slice(0 , 5).join("");
+
+    let bDay = new Date((bDayDays * 24 * 60 * 60 * 1000) + date1);
+
+	let citizen = {
+		code: INN.join(""),
+		isCorrect: INN[9] == ctrlNum
+    };
+        
+    if(citizen.isCorrect === true){
+        citizen["sex"] = (INN[8] % 2) == 0 ? "female" : "male";
+        citizen["dateOfBirth"] = formatDate(bDay);
+        citizen["fullYears"] = fullYears(bDay);
+    }
+
+	return citizen;
+    };
+
+    let userInn = prompt("Введите ИНН");
+    
+    console.log(innVerif(userInn));
+
+    (function innVerifTest(){
+        console.assert(innVerif("3463463460").code === "3463463460", "innVerif().code - error!");
+        console.assert(innVerif("3463463460").dateOfBirth === "1994-10-28", "innVerif().dateOfBirth - error!");
+        console.assert(innVerif("3463463460").isCorrect === true, "innVerif().isCorrect - error!");
+        console.assert(innVerif("3463463460").sex === "female", "innVerif().sex - error!");
+        console.assert(innVerif("3463463460").fullYears === 25, "innVerif().fullYears - error!");
+    })();
+
+</script>
