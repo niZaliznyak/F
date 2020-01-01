@@ -1,19 +1,20 @@
 <script>
+    
     function fullYears(b){
     var n = new Date(), b = new Date(b),
         age = n.getFullYear() - b.getFullYear();
     return n.setFullYear(1995) < b.setFullYear(1995) ? age - 1 : age;
     }
     
-    function formatDate(date){
+    function formatDate(a){
 
-    var dd = date.getDate();
+    var dd = a.getDate();
     if (dd < 10) dd = '0' + dd;
 
-    var mm = date.getMonth() + 1;
+    var mm = a.getMonth() + 1;
     if (mm < 10) mm = '0' + mm;
 
-    var yy = date.getFullYear();
+    var yy = a.getFullYear();
     if (yy < 10) yy = '0' + yy;
 
     return yy + '-' + mm + '-' + dd;
@@ -28,12 +29,10 @@
 	let ctrlNum = ctrl % 11;
 	
 	ctrlNum = ctrlNum == 10 ? 0 : ctrlNum;
-
-    const date1 = (new Date(1900, 0, 1)).getTime();
     
     let bDayDays = +INN.slice(0 , 5).join("");
 
-    let bDay = new Date((bDayDays * 24 * 60 * 60 * 1000) + date1);
+    let bDay = new Date(1899, 11, 31 + bDayDays);
 
 	let citizen = {
 		code: INN.join(""),
@@ -60,5 +59,8 @@
         console.assert(innVerif("3463463460").sex === "female", "innVerif().sex - error!");
         console.assert(innVerif("3463463460").fullYears === 25, "innVerif().fullYears - error!");
     })();
+
+    // 3463463460 пол женский, д.р . 28.10.1994;
+    // 2063463479 пол мужской, д.р . 29.06.1956
 
 </script>
